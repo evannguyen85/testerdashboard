@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Realtime CellVega</title>
+	<!-- <link rel="stylesheet" href='/stylesheet/app.css'> -->
+	<!-- <link rel="stylesheet" href='/stylesheet/css/bootstrap.min.css'> -->
+
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="/stylesheet/css/materialize.min.css" media="screen,projection" />
+	<link rel="stylesheet" href="/stylesheet/css/style.css">
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<script type="text/javascript" src='/scripts/jquery-1.9.1.min.js'></script>
+	<script type="text/javascript" src='/scripts/jquery-ui-1.8.24.js'></script>
+
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script type="text/javascript" src='http://code.highcharts.com/modules/boost.js'></script>
+	<script src="https://code.highcharts.com/modules/series-label.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+
+	<script type="text/javascript" src='/scripts/core.js'></script>
+	<script type="text/javascript" src='/scripts/vector.js'></script>
+
+
+</head>
+
+<body>
+	<!-- NAVBAR -->
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<div class="row">
+					<div class="col s12">
+						<a href="#" data-target="sidenav-1" class="left sidenav-trigger hide-on-medium-and-up"><i class="material-icons">menu</i></a>
+						<a href="https://codepen.io/collection/nbBqgY" target="_blank" class="brand-logo">HDMT - High Density Modular Tester</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!-- LEFT SIDEBAR	 -->
+	<ul id="sidenav-1" class="sidenav sidenav-fixed collapsible">
+		<li>
+			<a href="/pages/admin-dashboard" class="logo-container">Dashboard<i class="small material-icons left">dashboard</i></a>
+
+		</li>
+		<li id="dashboard" class="active">
+			<a class="collapsible-header active" href="#" tabindex="0">
+				<span class="main-menu-item">HDMT Machines</span>
+				<span class="badge orange">3</span>
+				<!-- <i id="arrow" style="float: right;" class="material-icons">keyboard_arrow_right</i> -->
+			</a>
+			<div class="collapsible-body">
+				<ul class="collapsible collapsible-sub" data-collapsible="accordion">
+					<li>
+						<a class="collapsible-body" href="/hhv001">
+							<i class="tiny material-icons">radio_button_unchecked</i>
+							<span>HHV001</span>
+						</a>
+					</li>
+					<li>
+						<a class="collapsible-body" href="/hhv002">
+							<i class="tiny material-icons">radio_button_unchecked</i>
+							<span>HHV002</span>
+						</a>
+					</li>
+					<li>
+						<a class="collapsible-body" href="/hhv003">
+							<i class="tiny material-icons">radio_button_unchecked</i>
+							<span>HHV003</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li><a style="font-size: 24px;" href="#">About</a></li>
+	</ul>
+	<main>

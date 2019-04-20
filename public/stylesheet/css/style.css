@@ -1,0 +1,84 @@
+header, main, footer {
+	padding-left: 300px;
+}
+
+.logo-container {
+	padding: 0 16px;
+    height: 64px !important;
+    line-height: 64px !important;
+    font-size: 26px !important;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+
+.logo-container i {
+	height: 64px !important;
+    line-height: 64px !important;
+}
+
+.main-menu-item {
+	padding: inherit;
+	font-size: 24px;
+}
+#dashboard {
+	transition: all 2.0s;
+}
+
+#dashboard .collapsible-header:after
+{
+    font-family: 'Material Icons';
+    font-size: 18px;
+
+    position: absolute;
+    right: 10px;
+
+	content: 'keyboard_arrow_right';
+    transition: transform .3s ease-in-out, opacity .25s ease-in-out .1s, -webkit-transform .3s ease-in-out;
+	color: #afafaf;
+}
+#dashboard .collapsible-header.active:after
+{
+    content: 'keyboard_arrow_down';
+}
+
+/* #dashboard .collapsible-header:hover {
+	transform: rotate(90deg);
+} */
+
+#dashboard span.badge {
+	min-width: 1.6rem;
+	float: none;
+	border-radius: 50%;
+	position: absolute;
+	right: 30px;
+	color: white;
+}
+
+.sidenav li>a:active {
+	background-color: #f2f2f2;
+}
+
+#divVega{
+	min-width: 310px;
+	max-width: 800px;
+	/* margin: 0 auto; */
+}
+
+.finding li {
+	list-style-type: circle !important;
+}
+
+.finding-details li {
+	list-style-type: disc !important;
+	margin-left: 20px;
+}
+
+footer {
+	clear: both;
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, footer {
+		padding-left: 0;
+	}
+}

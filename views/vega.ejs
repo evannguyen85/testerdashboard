@@ -1,0 +1,271 @@
+<% include ./partials/header %>
+
+<div id="divVega"></div>
+
+<script type="text/javascript">
+	var tool = "<%- currentTool %>";
+	function PrepareGraph() {
+		// body...
+		vega = {
+			chart: {
+				type: 'line',
+				height: 500,
+				width: 800,
+				margin: [],
+				events: {
+					click: function (e) {
+					}
+				}
+			},
+			boost: {
+				useGPUTranslations: true,
+				usePreAllocated: true
+			},
+			title: {
+				// text: 'Cell Performance ' + '@ViewBag.tool'
+				text: 'Tester Performance Of Machine ID: ' + tool
+			},
+			subtitle: {
+
+			},
+			xAxis: {
+				tickInterval: 10,
+				title: {
+					text: 'Shift'
+				},
+				//categories:['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00'],
+				labels: {
+					rotation: -45,
+					formatter: function () {
+						if (this.value == 0)
+							return "07:00";
+						if (this.value == 20)
+							return "07:20";
+						if (this.value == 40)
+							return "07:40";
+						if (this.value == 60)
+							return "08:00";
+						if (this.value == 80)
+							return "08:20";
+						if (this.value == 100)
+							return "08:40";
+						if (this.value == 120)
+							return "09:00";
+						if (this.value == 140)
+							return "09:20";
+						if (this.value == 160)
+							return "09:40";
+						if (this.value == 180)
+							return "10:00";
+						if (this.value == 200)
+							return "10:20";
+						if (this.value == 220)
+							return "10:40";
+						if (this.value == 240)
+							return "11:00";
+						if (this.value == 260)
+							return "11:20";
+						if (this.value == 280)
+							return "11:40";
+						if (this.value == 300)
+							return "12:00";
+						if (this.value == 320)
+							return "12:20";
+						if (this.value == 340)
+							return "12:40";
+						if (this.value == 360)
+							return "01:00";
+						if (this.value == 380)
+							return "01:20";
+						if (this.value == 400)
+							return "01:40";
+						if (this.value == 420)
+							return "02:00";
+						if (this.value == 440)
+							return "02:20";
+						if (this.value == 460)
+							return "02:40";
+						if (this.value == 480)
+							return "03:00";
+						if (this.value == 500)
+							return "03:20";
+						if (this.value == 520)
+							return "03:40";
+						if (this.value == 540)
+							return "04:00";
+						if (this.value == 560)
+							return "04:20";
+						if (this.value == 580)
+							return "04:40";
+						if (this.value == 600)
+							return "05:00";
+						if (this.value == 620)
+							return "05:20";
+						if (this.value == 640)
+							return "05:40";
+						if (this.value == 660)
+							return "06:00";
+						if (this.value == 680)
+							return "06:20";
+						if (this.value == 700)
+							return "06:40";
+						if (this.value == 720)
+							return "07:00";
+					}
+				}
+			},
+			yAxis: {
+				title: {
+					text: 'Cell ID'
+				},
+				categories: ['A101', 'A102', 'A201', 'A202', 'A301', 'A302', 'A401', 'A402', 'A501', 'A502', 'B101', 'B102', 'B201', 'B202', 'B301', 'B302', 'B401', 'B402', 'B501', 'B502', 'C101', 'C102', 'C201', 'C202', 'C301', 'C302', 'C401', 'C402', 'C501', 'C502'],
+				allowDecimals: false,
+				tickInterval: 1,
+				labels: {
+					style: {
+						fontSize: '10px'
+					}
+				}
+			},
+			legend: {
+				enabled: false
+			},
+			exporting: {
+				enabled: false
+			},
+			plotOptions: {
+				series: {
+					boostThreshold: 10, // number of points in one series, when reaching this number, boost.js module will be used
+					lineWidth: 5,
+					label: {
+						connectorAllowed: false
+					},
+					enableMouseTracking: false,
+					//pointStart: 0
+				}
+			},
+			series: [
+
+			]
+		};
+		//30 cells on the y axis.
+		var yList = ['A101', 'A102', 'A201', 'A202', 'A301', 'A302', 'A401', 'A402', 'A501', 'A502', 'B101', 'B102', 'B201', 'B202', 'B301', 'B302', 'B401', 'B402', 'B501', 'B502', 'C101', 'C102', 'C201', 'C202', 'C301', 'C302', 'C401', 'C402', 'C501', 'C502'];
+
+		var color,
+			name,
+			start,
+			end;
+		var id = "";
+		var k = 0; //index of vega
+		var uniqueCellList = [];
+		        <% for (var i = 0, len = cells.length; i < len; i = i + 1) { %>
+
+			//cell is an object:
+			//{color, name, [[start, i],[end, i]]}
+
+			//ideas: if the same color, keep the start, and only update the end.
+			//if change color - add new data.
+			color = "<%- cells[i].color %>";
+			name = "<%- cells[i].name %>";
+			start = <%- cells[i].startTest %>;
+			end = <%- cells[i].endTest %>;
+
+			//console.log("vegacell: " + name + " " + start + " " + end + " " + color)
+			//console.log("end of test: " + name + " " + end + " " + color)
+
+			var yindex = yList.indexOf(name);
+			var sr = {};
+			sr['color'] = color;
+			sr['name'] = name;
+			//sr['data'] = [[start,yindex],[end,yindex]];
+			sr['data'] = [[start, yindex], [end, yindex]];
+			vega.series.push(sr); //Assuming that all logics including update status was done in app.js. this is just to display charts.
+
+				<% }; %>
+
+				//Add a fake cell to scale the graph
+			        var sr = {};
+		sr['color'] = 'white';
+		sr['data'] = [[0, 30], [720, 30]]; //start and end coordinators. C101 from 0 to 720
+		vega.series.push(sr);
+		console.debug(vega.series);
+	};
+
+	function CellVegaGraph() {
+		Highcharts.chart('divVega', vega);
+		//$('#divVega').highcharts(vega); //Taking so long. next is to study highcharts
+		//console.log("rendering charts here?");
+	}
+
+	$(function () {
+
+		PrepareGraph();
+		CellVegaGraph();
+
+	})
+
+</script>
+<div class="row">
+    <div class="col s12 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Problematic Testers</span>
+          <ul class="finding">
+			<li>Bad Performing Cells (50%) and Not Running for >1hr
+				<ul class="finding-details">
+					<% cellAlarm.forEach(function(cellS) { %>
+					<li>Cell
+						<%= cellS.cellId %>: Down time:
+						<%= cellS.tDown %> minutes (
+						<%= cellS.cellDown%>%)</li>
+					<% }); %>
+				</ul>
+			</li>
+			<li>Cells keep INIT
+				<ul class="finding-details">
+					<% cellInit.forEach(function(cellIn) { %>
+					<li>Cell
+						<%= cellIn.cellId %>: Count:
+						<%= cellIn.count%>
+					</li>
+					<% }); %>
+				</ul>
+			</li>
+		</ul>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Warning for Preventive Maintenance</span>
+          <ul class="finding">
+			<li>Cells to be run CAL/DIAGNOSTIC
+				<ul class="finding-details">
+					<% cellCal.forEach(function(cellC) { %>
+					<li>Cell
+						<%= cellC.cellId %>: Bin:
+						<%= cellC.bin %> Count:
+						<%= cellC.count%>
+					</li>
+					<% }); %>
+				</ul>
+			</li>
+			<li>Cells Lost Comms frequently: Column Trip is predicted.
+				<ul class="finding-details">
+					<% cellCommLoss.forEach(function(cellComm) { %>
+					<li>Cell
+						<%= cellComm.cellId %>: Count:
+						<%= cellComm.count%>
+					</li>
+					<% }); %>
+				</ul>
+			</li>
+		</ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Next is to display it into highcharts, using the above variables -->
+<% include ./partials/footer %>

@@ -1,0 +1,117 @@
+<script type="text/javascript">
+		function PrepareGraph() {
+		   		// body...
+    		    vega = {
+			        chart: {
+			            type: 'scatter',
+			            height: 700,
+			            width: 1200,
+			            margin: [],
+			            events: {
+			                click: function (e) {
+
+			                }
+			            }
+			        },
+			        title: {
+			            // text: 'Cell Performance ' + '@ViewBag.tool'
+			            text: 'Cell Performance ' + 'HHV001'
+			        },
+			        subtitle: {
+
+			        },
+			        xAxis: {
+			            tickInterval: 10,
+			            labels:{
+			                rotation:-45
+			            },
+			            categories:['0','1','2','3','4','5','6','7','8','9','10','11','12']
+
+			        },
+			        yAxis: {
+			            title: {
+			                text: 'Cell ID'
+			            },
+			            categories:['A101','A102','A201','A202','A301','A302','A401','A402','A501','A502','B101','B102','B201','B202','B301','B302','B401','B402','B501','B502','C101','C102','C201','C202','C301','C302','C401','C402','C501','C502'],
+			            allowDecimals: false,
+			            tickInterval: 1
+			            
+			        },
+			        legend: {
+			            enabled: false
+			        },
+			        exporting: {
+			            enabled: false
+			        },
+			        plotOptions: {
+			            series: {
+			                lineWidth: 5,
+			                marker:{enabled:true},
+			                point: {
+			                    events: {
+			                        'click': function () {
+			                           
+			                        }
+			                    }
+			                }
+			            }
+			        },
+			        series: [
+			        ]
+			    };
+		        //30 cells on the y axis.
+		        var yList = ['A101','A102','A201','A202','A301','A302','A401','A402','A501','A502','B101','B102','B201','B202','B301','B302','B401','B402','B501','B502','C101','C102','C201','C202','C301','C302','C401','C402','C501','C502'];
+    			
+		        var id = "";
+		        var status = "";
+		        var start = 0;
+		        var end = 0;
+				<% cells.forEach(function(cell) { %>
+	    			id = "<%- cell.cellId %>";
+	    			status = "<%- cell.cellStatus %>";
+	    			start =  <%- cell.startTime %>;
+	    			end = <%- cell.endTime %>	
+	    		       					
+					// cell.cellId; [0]
+					// cell.cellStatus; [1]
+					// cell.startTime; [2]
+					// cell.endTime; [3]
+					
+				    var sr = {};
+		            if (status == "UP") {
+		                sr['color'] = 'green';    
+		            } else
+		            {
+		                sr['color'] = 'red';    
+		            }
+		            //search all 30 cells in the yaxisList, and update status for the corresponding cell.
+		            for (var i=0; i<30; i++) {
+		            	if (id == yList[i]) {
+		            		sr['name'] = id;
+		            		sr['data'] = [[start,i],[end,i]];
+		            		vega.series.push(sr);
+		            	}
+		            }
+
+				<% }); %>
+
+			    //Add a fake cell to scale the graph
+			        var sr = {};
+				    sr['color'] = 'white';
+				    sr['data'] = [[0,30],[720,30]]; //start and end coordinators. C101 from 0 to 720
+				    vega.series.push(sr);
+				    console.debug(vega.series);
+			 }
+			    
+			function CellVegaGraph()
+			{
+			    $('#divVega').highcharts(vega);
+			}
+
+			$(function(){
+			    PrepareGraph();
+			    CellVegaGraph();
+			})
+</script>
+
+	
