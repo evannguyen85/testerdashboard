@@ -9,9 +9,13 @@ var fs          = require("fs"),
 	express 	= require("express"),
 	app 		= express();
 
+const port = process.env.PORT || 8080;
 
 //Create and connect to the db
-mongoose.connect("mongodb://localhost/vega_db");
+// mongoose.connect("mongodb://localhost/vega_db");
+mongoose.connect("mongodb+srv://evan:evan123@testerdashboard-eqw6b.mongodb.net/test?retryWrites=true");
+// mongodb+srv://evan:evan123@testerdashboard-eqw6b.mongodb.net/test?retryWrites=true
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
@@ -62,11 +66,11 @@ for (var i =0, len = tools.length; i<len; i++) {
 //RESTful" ROUTES
 //Index route
 app.get("/", function(req, res){
-	res.redirect("hdmt");
+	res.redirect("about");
 });
 
-app.get("/hdmt", function(req, res){
-	res.render("index");
+app.get("/about", function(req, res){
+	res.render("about");
 });
 
 
@@ -420,6 +424,8 @@ function uniqueArray(original, limit) {
 };
 
 //Listen
-app.listen(3000, function(){
-	console.log("SERVER HAS STARTED");
-});
+// app.listen(3000, function(){
+// 	console.log("SERVER HAS STARTED");
+// });
+
+app.listen(port, ()=> {console.log('server is running')});

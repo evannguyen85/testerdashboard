@@ -12,7 +12,8 @@ var express 	= require("express"),
 	app 		= express();
 
 //Create and connect to the db
-mongoose.connect("mongodb://localhost/vega_db");
+// mongoose.connect("mongodb://localhost/vega_db");
+mongoose.connect("mongodb+srv://evan:evan123@testerdashboard-eqw6b.mongodb.net/test?retryWrites=true");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -46,8 +47,8 @@ console.log("today shift = " + ds)
 console.log("today shift = " + ns)
 
 var isNowMins = Math.round(Date.parse(now)/60000) //hard code for now. change to var timeInMs = Date.now();
-var dsStart = Math.round(Date.parse(ds)/60000); 
-var nsStart = Math.round(Date.parse(ns)/60000); 
+var dsStart = Math.round(Date.parse(ds)/60000);
+var nsStart = Math.round(Date.parse(ns)/60000);
 
 var shiftStart = 0; //start of current shift in minutes
 var shiftEnd = 0; //end of current shift in minutes
@@ -91,7 +92,7 @@ function dbUpdate(logPath, callBack){
 	var ignoreFileReg = /.DS_Store/ig
 	if(!filenameReg.exec(logPath) && !ignoreFileReg.exec(logPath)){
 
-		//Now process fresh file. parse log file	
+		//Now process fresh file. parse log file
 		read(logPath, function(teciLines) { //Read file line by line and store into teciline without end of sentence
 			var cell = [];
 			var cellCalib = [];
@@ -108,14 +109,14 @@ function dbUpdate(logPath, callBack){
 					// match start: match.index
 					// capturing group n: match[n]
 					//console.log("matching??????");
-					
+
 					var timeStamp = Math.round(Date.parse(match[1])/60000); //minutes
 					//now, only store information for the current shift, starting 7:00
-					
+
 					//first - defining the shift start: date, time based on the NOW
 					var time = timeStamp - shiftStart;
 					var command = match[2];
-					var tempCell = {};			
+					var tempCell = {};
 					var currCell = match[3];
 					tempCell['cellId'] = currCell;
 					tempCell['endTime'] = time;
@@ -128,13 +129,13 @@ function dbUpdate(logPath, callBack){
 							tempCell['startTime'] = time;
 							cell.push(tempCell); //cellId, startTime or endTime
 						} else if (command == 'EndTest') {
-							
-							var isCell = cell.map(item => item.cellId === currCell).lastIndexOf(true); 
+
+							var isCell = cell.map(item => item.cellId === currCell).lastIndexOf(true);
 							//console.log(isCell);
 							//isCell = -1?? teci file starting with end command first
 							if (isCell>=0) { //how not to check all the time.
 								cell[isCell].endTime = time; //update endTime.
-							}	
+							}
 						} else {
 							//throw err
 							console.log("Errrrrrrrr");
@@ -143,7 +144,7 @@ function dbUpdate(logPath, callBack){
 			    	match = myRegexp.exec(teciLines[i]);
 			    }
 
-			    
+
 				//2014-12-23 05:45:14,377 [8] INFO  [Details of Event sent to CIMConnect EventName = EndTest SITEID = A502 HardBin = 1 SoftBin = 118 DFFInfo =  EFUSEID = N4431410_572_-4_8 ThermalCardID = unknown TIUID = unknown UnitTestStatus = PASS VisualID = 3T448008A07735 GoldenUnitStatus = 0 HandlerUniqueID = U452A0870034-4-12 LOTID = U452A087]
 				//Match bin 15 and bin 31 for preventive action - cal and diag
 				var binRegexp = /(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}).+?SITEID = ([ABC]\d{3})\s+?HardBin = (15|31)/g; //match either 15 or 31
@@ -184,7 +185,7 @@ function dbUpdate(logPath, callBack){
 						//console.log(alarm);
 						cellCommLoss.push(temp);
 					}
-						
+
 					commMatch = commRegexp.exec(teciLines[i]);
 				}
 
@@ -208,9 +209,9 @@ function dbUpdate(logPath, callBack){
 					//	console.log(text);
 						cellInit.push(temp);
 					}
-						
+
 					initMatch = initRegexp.exec(teciLines[i]);
-				}	
+				}
 
 			} //end of parsing one file one log
 
@@ -239,7 +240,7 @@ function dbUpdate(logPath, callBack){
 					cellId: cellCalib[i].cellId,
 					bin: cellCalib[i].bin,
 					toolId: clickedTool
-					
+
 				}, function(err, newVega){
 					if(err){
 						console.log("Errrrr");
@@ -257,7 +258,7 @@ function dbUpdate(logPath, callBack){
 					timeStamp: cellCommLoss[i].timeStamp,
 					alarm: cellCommLoss[i].alarm,
 					toolId: clickedTool
-					
+
 				}, function(err, newVega){
 					if(err){
 						console.log("Errrrr");
@@ -274,7 +275,7 @@ function dbUpdate(logPath, callBack){
 					timeStamp: cellInit[i].timeStamp,
 					text: cellInit[i].text,
 					toolId: clickedTool
-					
+
 				}, function(err, newVega){
 					if(err){
 						console.log("Errrrr");
@@ -290,7 +291,7 @@ function dbUpdate(logPath, callBack){
 		var logPathProcessed = logPath + ".processed";
 		fs.rename(logPath, logPathProcessed, function(err) {
 		    if ( err ) console.log('ERROR: ' + err);
-		});	
+		});
 	} //end of if not processed.
 	else {
 		console.log("file already processed: " + logPath);
@@ -313,7 +314,7 @@ function lastShift(isDay){
 }
 
 function currentDay(isNow) {
-	var myRegexp = /(\d{4}-\d{2}-\d{2})/g;	
+	var myRegexp = /(\d{4}-\d{2}-\d{2})/g;
 	match = myRegexp.exec(isNow);
 	var shift = match[1];
 	return shift;

@@ -1,43 +1,55 @@
-header, main, footer {
-	padding-left: 300px;
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+header,
+main,
+footer {
+    padding-left: 300px;
 }
 
 .logo-container {
-	padding: 0 16px;
+    padding: 0 16px;
     height: 64px !important;
     line-height: 64px !important;
     font-size: 26px !important;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
 }
 
 .logo-container i {
-	height: 64px !important;
+    height: 64px !important;
     line-height: 64px !important;
 }
 
 .main-menu-item {
-	padding: inherit;
-	font-size: 24px;
-}
-#dashboard {
-	transition: all 2.0s;
+    padding: inherit;
+    font-size: 24px;
 }
 
-#dashboard .collapsible-header:after
-{
+#dashboard {
+    transition: all 2.0s;
+}
+
+#dashboard .collapsible-header:after {
     font-family: 'Material Icons';
     font-size: 18px;
 
     position: absolute;
     right: 10px;
 
-	content: 'keyboard_arrow_right';
+    content: 'keyboard_arrow_right';
     transition: transform .3s ease-in-out, opacity .25s ease-in-out .1s, -webkit-transform .3s ease-in-out;
-	color: #afafaf;
+    color: #afafaf;
 }
-#dashboard .collapsible-header.active:after
-{
+
+#dashboard .collapsible-header.active:after {
     content: 'keyboard_arrow_down';
 }
 
@@ -46,39 +58,64 @@ header, main, footer {
 } */
 
 #dashboard span.badge {
-	min-width: 1.6rem;
-	float: none;
-	border-radius: 50%;
-	position: absolute;
-	right: 30px;
-	color: white;
+    min-width: 1.6rem;
+    float: none;
+    border-radius: 50%;
+    position: absolute;
+    right: 30px;
+    color: white;
 }
 
 .sidenav li>a:active {
-	background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
 
-#divVega{
-	min-width: 310px;
-	max-width: 800px;
-	/* margin: 0 auto; */
+#divVega {
+    min-width: 310px;
+    max-width: 1000px;
 }
 
 .finding li {
-	list-style-type: circle !important;
+    list-style-type: circle !important;
 }
 
 .finding-details li {
-	list-style-type: disc !important;
-	margin-left: 20px;
+    list-style-type: disc !important;
+    margin-left: 20px;
+}
+
+.about {
+	padding: 0 30px;
+}
+
+.about p {
+	font-size: 20px;
+}
+
+.about-img {
+	max-width: 100%;
+	max-height: 100%;
 }
 
 footer {
-	clear: both;
+    clear: both;
+}
+
+@media only screen and (max-width : 400px) {
+	.about p {
+		font-size: 16px;
+	}
+
+	.about {
+		padding: 0 10px;
+	}
 }
 
 @media only screen and (max-width : 992px) {
-	header, main, footer {
-		padding-left: 0;
-	}
+
+    header,
+    main,
+    footer {
+        padding-left: 0;
+    }
 }

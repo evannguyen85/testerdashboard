@@ -9,7 +9,8 @@ var express 	= require("express"),
 	app 		= express();
 
 //Create and connect to the db
-mongoose.connect("mongodb://localhost/vega_db");
+// mongoose.connect("mongodb://localhost/vega_db");
+mongoose.connect("mongodb+srv://evan:evan123@testerdashboard-eqw6b.mongodb.net/test?retryWrites=true");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
